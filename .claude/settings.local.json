@@ -7,7 +7,11 @@
       "WebFetch(domain:university.clay.com)",
       "WebFetch(domain:clay.com)",
       "WebFetch(domain:www.clay.com)",
-      "PowerShell(git *)"
+      "PowerShell(git *)",
+      "PowerShell(winget install *)",
+      "PowerShell(Get-ChildItem *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

@@ -11,7 +11,9 @@
       "PowerShell(winget install *)",
       "PowerShell(Get-ChildItem *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "PowerShell(& \"C:\\\\Users\\\\LENOVO\\\\OneDrive\\\\Documents\\\\Lanidng Pages Cohort\\\\push-to-clay.ps1\" -WebhookUrl \"https://api.clay.com/v3/sources/webhook/pull-in-data-from-a-webhook-f22f9435-4d74-44b2-b413-1586263f742f\")"
     ]
   }
 }

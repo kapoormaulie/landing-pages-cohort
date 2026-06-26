@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ListIQ — All Personalized Landing Pages</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050d1a;
+      --surface: #091525;
+      --border: #0d2035;
+      --accent: #0099ff;
+      --text: #ffffff;
+      --muted: #7aaac8;
+    }
+
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; min-height: 100vh; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 6%; border-bottom: 1px solid var(--border);
+      background: rgba(5,13,26,0.95); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 1.4rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-label { font-size: 0.85rem; color: var(--muted); }
+
+    .header {
+      text-align: center; padding: 4rem 6% 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,153,255,0.12); border: 1px solid rgba(0,153,255,0.3); color: #80d0ff; padding: 0.35rem 0.9rem; border-radius: 99px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.25rem; }
+    .header h1 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 0.75rem; }
+    .header p { color: var(--muted); font-size: 1rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      max-width: 1050px;
+      margin: 3rem auto;
+      padding: 0 6%;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .card-top { display: flex; align-items: center; gap: 0.85rem; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #fff); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; color: #05090f; flex-shrink: 0; }
+    .name { font-size: 1.05rem; font-weight: 700; }
+    .title { font-size: 0.82rem; color: var(--muted); }
+
+    .company-row { display: flex; align-items: center; gap: 0.5rem; }
+    .company-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(0,153,255,0.1); border: 1px solid rgba(0,153,255,0.25); border-radius: 99px; padding: 0.25rem 0.75rem; font-size: 0.8rem; font-weight: 600; color: #80d0ff; }
+
+    .url-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+    .url-text { font-size: 0.78rem; color: var(--muted); word-break: break-all; flex: 1; }
+    .arrow { font-size: 0.85rem; color: var(--accent); flex-shrink: 0; }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 6%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+    footer .logo { font-size: 1.1rem; }
+    footer p { font-size: 0.8rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">ListIQ</div>
+  <span class="nav-label">Personalized Landing Pages</span>
+</nav>
+
+<div class="header">
+  <div class="badge">Campaign Hub</div>
+  <h1>All Personalized Landing Pages</h1>
+  <p>5 pages · Each tailored to the prospect's role and company</p>
+</div>
+
+<div class="grid">
+
+  <a class="card" href="/sarah-retool" target="_blank">
+    <div class="card-top">
+      <div class="avatar">SM</div>
+      <div>
+        <div class="name">Sarah Mitchell</div>
+        <div class="title">VP of Revenue Operations</div>
+      </div>
+    </div>
+    <div class="company-row">
+      <span class="company-pill">Retool</span>
+    </div>
+    <div class="url-row">
+      <span class="url-text">listiq-landing-pages.vercel.app/sarah-retool</span>
+      <span class="arrow">↗</span>
+    </div>
+  </a>
+
+  <a class="card" href="/marcus-linear" target="_blank">
+    <div class="card-top">
+      <div class="avatar">MC</div>
+      <div>
+        <div class="name">Marcus Chen</div>
+        <div class="title">Head of Growth</div>
+      </div>
+    </div>
+    <div class="company-row">
+      <span class="company-pill">Linear</span>
+    </div>
+    <div class="url-row">
+      <span class="url-text">listiq-landing-pages.vercel.app/marcus-linear</span>
+      <span class="arrow">↗</span>
+    </div>
+  </a>
+
+  <a class="card" href="/emily-loom" target="_blank">
+    <div class="card-top">
+      <div class="avatar">ER</div>
+      <div>
+        <div class="name">Emily Rodriguez</div>
+        <div class="title">Director of Sales Development</div>
+      </div>
+    </div>
+    <div class="company-row">
+      <span class="company-pill">Loom</span>
+    </div>
+    <div class="url-row">
+      <span class="url-text">listiq-landing-pages.vercel.app/emily-loom</span>
+      <span class="arrow">↗</span>
+    </div>
+  </a>
+
+  <a class="card" href="/james-webflow" target="_blank">
+    <div class="card-top">
+      <div class="avatar">JO</div>
+      <div>
+        <div class="name">James Okonkwo</div>
+        <div class="title">GTM Engineer</div>
+      </div>
+    </div>
+    <div class="company-row">
+      <span class="company-pill">Webflow</span>
+    </div>
+    <div class="url-row">
+      <span class="url-text">listiq-landing-pages.vercel.app/james-webflow</span>
+      <span class="arrow">↗</span>
+    </div>
+  </a>
+
+  <a class="card" href="/rachel-airtable" target="_blank">
+    <div class="card-top">
+      <div class="avatar">RG</div>
+      <div>
+        <div class="name">Rachel Goldstein</div>
+        <div class="title">VP of Sales</div>
+      </div>
+    </div>
+    <div class="company-row">
+      <span class="company-pill">Airtable</span>
+    </div>
+    <div class="url-row">
+      <span class="url-text">listiq-landing-pages.vercel.app/rachel-airtable</span>
+      <span class="arrow">↗</span>
+    </div>
+  </a>
+
+</div>
+
+<footer>
+  <div class="logo">ListIQ</div>
+  <p>© 2026 ListIQ. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

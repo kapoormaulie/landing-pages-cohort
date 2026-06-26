@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ListIQ × Linear — Cloud Marketplace Listing</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #050d1a; --surface: #091525; --border: #0d2035; --accent: #0099ff; --accent2: #ffffff; --text: #ffffff; --muted: #7aaac8; --aws: #ff9900; --azure: #0078d4; --gcp: #4285f4; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; line-height: 1.6; }
+    #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .clouds-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .cloud-shape { position: absolute; }
+    nav, .hero-wrap, .stats-row, section, footer { position: relative; z-index: 1; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 6%; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(5,13,26,0.92); backdrop-filter: blur(12px); z-index: 100; }
+    .logo { font-size: 1.4rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    nav a:hover { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .btn { display: inline-block; padding: 0.65rem 1.4rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #007acc; transform: translateY(-1px); }
+    .btn-outline { border: 1px solid var(--border); background: transparent; color: var(--text); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-large { padding: 0.9rem 2rem; font-size: 1rem; border-radius: 10px; }
+    .hero { text-align: center; padding: 6rem 6% 5rem; max-width: 860px; margin: 0 auto; }
+    .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,153,255,0.12); border: 1px solid rgba(0,153,255,0.3); color: #80d0ff; padding: 0.35rem 0.9rem; border-radius: 99px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.75rem; letter-spacing: 0.02em; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
+    .hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.15rem; color: var(--muted); max-width: 600px; margin: 0 auto 2.5rem; }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .marketplace-logos { display: flex; align-items: center; justify-content: center; gap: 2.5rem; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+    .marketplace-logos span { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .trusted-by { display: flex; align-items: center; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .trusted-by-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .company-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--surface); border: 1px solid var(--border); border-radius: 99px; padding: 0.3rem 0.85rem; font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .company-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+    .company-pill.highlight { border-color: rgba(0,153,255,0.5); background: rgba(0,153,255,0.12); color: #80d0ff; }
+    .mp-badge { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+    .mp-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .section { padding: 5rem 6%; } .section-center { text-align: center; }
+    .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.75rem; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.05rem; color: var(--muted); max-width: 580px; margin: 0 auto 3rem; }
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; max-width: 1000px; margin: 0 auto; }
+    .pain-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+    .pain-card .icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .pain-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .pain-card p { font-size: 0.9rem; color: var(--muted); }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto; counter-reset: step; }
+    .step { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 1.5rem; counter-increment: step; }
+    .step::before { content: counter(step); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #05090f; font-weight: 800; font-size: 0.85rem; margin-bottom: 1rem; }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.875rem; color: var(--muted); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.25rem; max-width: 1000px; margin: 0 auto; }
+    .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem; transition: border-color 0.2s; }
+    .feature-card:hover { border-color: var(--accent); }
+    .feature-icon { width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, rgba(0,153,255,0.2), rgba(255,255,255,0.08)); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem; }
+    .feature-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .feature-card p { font-size: 0.875rem; color: var(--muted); }
+    .mp-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .mp-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; max-width: 1000px; margin: 0 auto; }
+    .mp-card { border-radius: 14px; padding: 1.75rem; border: 1px solid; }
+    .mp-card.aws { border-color: rgba(255,153,0,0.3); background: rgba(255,153,0,0.05); }
+    .mp-card.azure { border-color: rgba(0,120,212,0.3); background: rgba(0,120,212,0.05); }
+    .mp-card.gcp { border-color: rgba(66,133,244,0.3); background: rgba(66,133,244,0.05); }
+    .mp-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .mp-logo { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: #fff; }
+    .mp-logo.aws{background:var(--aws);}.mp-logo.azure{background:var(--azure);}.mp-logo.gcp{background:var(--gcp);}
+    .mp-card h3 { font-size: 1rem; font-weight: 700; }
+    .mp-card p { font-size: 0.875rem; color: var(--muted); }
+    .mp-stat { margin-top: 1rem; font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 0.75rem; }
+    .mp-stat strong { color: var(--text); }
+    .quotes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; max-width: 1000px; margin: 0 auto; }
+    .quote-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem; }
+    .quote-text { font-size: 0.95rem; color: var(--text); line-height: 1.65; margin-bottom: 1.25rem; font-style: italic; }
+    .quote-author { display: flex; align-items: center; gap: 0.75rem; }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: #05090f; flex-shrink: 0; }
+    .author-name { font-weight: 600; font-size: 0.9rem; }
+    .author-role { font-size: 0.8rem; color: var(--muted); }
+    .stats-row { display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; padding: 4rem 6%; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
+    .stat { text-align: center; }
+    .stat-number { font-size: 2.6rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 0.25rem; }
+    .stat-label { font-size: 0.85rem; color: var(--muted); }
+    .cta-section { text-align: center; padding: 6rem 6%; max-width: 700px; margin: 0 auto; }
+    .cta-section h2 { margin-bottom: 1rem; }
+    .cta-section p { color: var(--muted); margin-bottom: 2rem; }
+    .form-row { display: flex; gap: 0.75rem; max-width: 480px; margin: 0 auto 1rem; flex-wrap: wrap; }
+    .form-row input { flex: 1; min-width: 200px; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+    .form-row input:focus { border-color: var(--accent); }
+    .form-row input::placeholder { color: var(--muted); }
+    .form-note { font-size: 0.8rem; color: var(--muted); }
+    footer { border-top: 1px solid var(--border); padding: 2rem 6%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    footer .logo { font-size: 1.1rem; }
+    footer p { font-size: 0.8rem; color: var(--muted); }
+    .hero-glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 700px; height: 500px; background: radial-gradient(ellipse, rgba(0,153,255,0.13) 0%, transparent 70%); pointer-events: none; }
+    .hero-wrap { position: relative; overflow: hidden; }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="clouds-layer" aria-hidden="true">
+  <svg class="cloud-shape" style="left:4%;top:6%;width:270px;opacity:0.05" viewBox="0 0 270 120" fill="none"><path d="M38 105Q8 105 8 74Q8 46 38 44Q35 17 66 15Q84 4 104 20Q124 4 148 20Q180 20 182 44Q210 44 210 74Q210 105 178 105Z" fill="#0099ff"/></svg>
+  <svg class="cloud-shape" style="right:6%;top:10%;width:210px;opacity:0.04" viewBox="0 0 210 95" fill="none"><path d="M30 82Q7 82 7 57Q7 35 30 33Q28 12 52 11Q66 2 84 15Q102 2 122 15Q148 15 150 33Q174 33 174 57Q174 82 148 82Z" fill="#ffffff"/></svg>
+  <svg class="cloud-shape" style="left:58%;top:40%;width:190px;opacity:0.03" viewBox="0 0 190 86" fill="none"><path d="M27 74Q6 74 6 52Q6 32 27 30Q25 11 47 10Q60 2 76 14Q92 2 110 14Q133 14 135 30Q156 30 156 52Q156 74 132 74Z" fill="#0099ff"/></svg>
+  <svg class="cloud-shape" style="left:10%;top:65%;width:230px;opacity:0.032" viewBox="0 0 230 105" fill="none"><path d="M32 92Q7 92 7 65Q7 41 32 39Q30 15 57 14Q73 4 94 19Q115 4 138 19Q168 19 170 39Q196 39 196 65Q196 92 168 92Z" fill="#0099ff"/></svg>
+  <svg class="cloud-shape" style="right:7%;top:75%;width:250px;opacity:0.04" viewBox="0 0 250 112" fill="none"><path d="M34 98Q8 98 8 70Q8 44 34 42Q32 16 60 14Q77 3 100 20Q123 3 148 20Q180 20 182 42Q210 42 210 70Q210 98 180 98Z" fill="#ffffff"/></svg>
+</div>
+
+<nav>
+  <div class="logo">ListIQ</div>
+  <div class="nav-links">
+    <a href="#how">How it works</a><a href="#features">Features</a><a href="#marketplaces">Marketplaces</a>
+    <a href="#demo" class="btn btn-primary">Book a demo</a>
+  </div>
+</nav>
+
+<div class="hero-wrap">
+  <div class="hero-glow"></div>
+  <div class="hero">
+    <div class="badge">Cloud Marketplace Listing Platform · For Linear</div>
+    <h1>Marcus, unlock <span>AWS, Azure & GCP</span> as a new growth channel for Linear</h1>
+    <p>Cloud marketplaces are one of the fastest-growing SaaS distribution channels — but most growth teams can't touch them without a 3-month engineering project. ListIQ gets Linear listed in days, not months.</p>
+    <div class="hero-ctas">
+      <a href="#demo" class="btn btn-primary btn-large">Book a Demo</a>
+      <a href="#how" class="btn btn-outline btn-large">See How It Works</a>
+    </div>
+    <div class="trusted-by">
+      <span class="trusted-by-label">Trusted by teams at</span>
+      <span class="company-pill">Retool</span>
+      <span class="company-pill highlight"><span class="dot"></span>Linear</span>
+      <span class="company-pill">Loom</span>
+      <span class="company-pill">Webflow</span>
+      <span class="company-pill">Airtable</span>
+    </div>
+    <div class="marketplace-logos">
+      <span>Supported on</span>
+      <div class="mp-badge"><div class="mp-dot" style="background:var(--aws)"></div> AWS Marketplace</div>
+      <div class="mp-badge"><div class="mp-dot" style="background:var(--azure)"></div> Azure Marketplace</div>
+      <div class="mp-badge"><div class="mp-dot" style="background:var(--gcp)"></div> GCP Marketplace</div>
+    </div>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat"><div class="stat-number">3x</div><div class="stat-label">faster time-to-listing</div></div>
+  <div class="stat"><div class="stat-number">90%</div><div class="stat-label">less engineering effort</div></div>
+  <div class="stat"><div class="stat-number">$0</div><div class="stat-label">compliance surprises</div></div>
+  <div class="stat"><div class="stat-number">3</div><div class="stat-label">marketplaces, one platform</div></div>
+</div>
+
+<section class="section section-center">
+  <div class="section-label">The Problem</div>
+  <h2>Cloud marketplace is the growth channel you can't unlock without engineering</h2>
+  <p class="subtitle">Buyers with committed AWS, Azure, and GCP spend are looking for tools like Linear — but getting listed is a months-long engineering project that pulls your team off product.</p>
+  <div class="pain-grid">
+    <div class="pain-card"><div class="icon">🚫</div><h3>Engineering won't prioritise it</h3><p>Metering APIs, billing integrations, and compliance cert work aren't on any eng roadmap — so marketplace keeps getting pushed.</p></div>
+    <div class="pain-card"><div class="icon">📉</div><h3>You're missing buyers with committed spend</h3><p>Enterprise customers with $100K+ cloud budgets want to buy through AWS or Azure — and you can't close those deals without a listing.</p></div>
+    <div class="pain-card"><div class="icon">⏳</div><h3>Approval cycles kill GTM momentum</h3><p>Each hyperscaler has its own review process. Getting rejected and resubmitting can eat 8–12 weeks off your launch timeline.</p></div>
+    <div class="pain-card"><div class="icon">🔄</div><h3>Three portals, three sets of rules</h3><p>AWS, Azure, and GCP all have different listing formats, pricing models, and certification requirements — it's a full-time job to manage.</p></div>
+  </div>
+</section>
+
+<section class="section section-center mp-section" id="how">
+  <div class="section-label">How It Works</div>
+  <h2>From zero to listed in days, not months</h2>
+  <p class="subtitle">ListIQ handles the complexity so your team can focus on growing.</p>
+  <div class="steps">
+    <div class="step"><h3>Connect your product</h3><p>Sync your software metadata, pricing, and assets through our simple dashboard or API in under an hour.</p></div>
+    <div class="step"><h3>Choose your marketplaces</h3><p>Select AWS, Azure, GCP — or all three. ListIQ auto-adapts your listing to each platform's requirements.</p></div>
+    <div class="step"><h3>We handle compliance</h3><p>Metering, entitlement, billing APIs, and certification checks are handled automatically — no engineering lift.</p></div>
+    <div class="step"><h3>Go live & keep growing</h3><p>Publish your listing and keep it fresh with one-click updates synced across all marketplaces simultaneously.</p></div>
+  </div>
+</section>
+
+<section class="section section-center" id="features">
+  <div class="section-label">Features</div>
+  <h2>Everything you need to win on cloud marketplaces</h2>
+  <p class="subtitle">Built for growth teams who need speed without sacrificing compliance.</p>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">⚡</div><h3>One-click multi-marketplace publish</h3><p>Write your listing once, publish everywhere. ListIQ handles format conversion and field mapping for each platform.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔌</div><h3>Metering & billing API integration</h3><p>Pre-built integrations with AWS SaaS contracts, Azure billing, and GCP marketplace entitlements — out of the box.</p></div>
+    <div class="feature-card"><div class="feature-icon">✅</div><h3>Compliance auto-checker</h3><p>Catch errors before submission. Our validator flags missing fields, policy violations, and formatting issues instantly.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔄</div><h3>Sync updates across all listings</h3><p>Update pricing, features, or screenshots once and push to all marketplaces simultaneously — no manual portal work.</p></div>
+    <div class="feature-card"><div class="feature-icon">📊</div><h3>Marketplace analytics dashboard</h3><p>Track impressions, clicks, trials, and revenue across all three marketplaces in a single unified view.</p></div>
+    <div class="feature-card"><div class="feature-icon">🤝</div><h3>Co-sell & private offer support</h3><p>Create and manage private offers and co-sell opportunities with cloud providers directly from ListIQ.</p></div>
+  </div>
+</section>
+
+<section class="section section-center mp-section" id="marketplaces">
+  <div class="section-label">Supported Platforms</div>
+  <h2>All three hyperscalers, one platform</h2>
+  <p class="subtitle">Access hundreds of millions in committed cloud spend from buyers already on AWS, Azure, and GCP.</p>
+  <div class="mp-cards">
+    <div class="mp-card aws"><div class="mp-card-header"><div class="mp-logo aws">AWS</div><h3>AWS Marketplace</h3></div><p>Reach 300,000+ active customers. ListIQ handles SaaS contract APIs, AMI packaging, metering, and ISV Accelerate enrollment.</p><div class="mp-stat"><strong>$15B+</strong> in annual AWS Marketplace transactions</div></div>
+    <div class="mp-card azure"><div class="mp-card-header"><div class="mp-logo azure">AZ</div><h3>Azure Marketplace</h3></div><p>Tap into Microsoft's partner network and enterprise buyers. We handle Azure offer types, plan configuration, and billing integration.</p><div class="mp-stat"><strong>95%</strong> of Fortune 500 companies use Azure</div></div>
+    <div class="mp-card gcp"><div class="mp-card-header"><div class="mp-logo gcp">GCP</div><h3>GCP Marketplace</h3></div><p>List on Google Cloud Marketplace and unlock committed spend from GCP customers. ListIQ manages procurement integration and listing setup.</p><div class="mp-stat"><strong>$10B+</strong> in GCP committed spend available</div></div>
+  </div>
+</section>
+
+<section class="section section-center">
+  <div class="section-label">What Teams Are Saying</div>
+  <h2>Trusted by growth teams at fast-moving SaaS companies</h2>
+  <p class="subtitle">These are the teams who turned cloud marketplace from a roadblock into their fastest-growing distribution channel.</p>
+  <div class="quotes-grid">
+    <div class="quote-card"><p class="quote-text">"As a GTM Engineer I was dreading the marketplace integration work. ListIQ's metering API was plug-and-play. We shipped what would have taken a quarter in under two weeks."</p><div class="quote-author"><div class="avatar">JO</div><div><div class="author-name">James O.</div><div class="author-role">GTM Engineer</div></div></div></div>
+    <div class="quote-card"><p class="quote-text">"Cloud marketplace is now our #2 revenue channel. Having all three listings in sync with one update is a game changer for our growth motion."</p><div class="quote-author"><div class="avatar">RG</div><div><div class="author-name">Rachel G.</div><div class="author-role">VP of Sales</div></div></div></div>
+    <div class="quote-card"><p class="quote-text">"We tried to do our AWS listing in-house and wasted two months. ListIQ got us live in 9 days. The compliance checker alone saved us from three rejection cycles."</p><div class="quote-author"><div class="avatar">SM</div><div><div class="author-name">Sarah M.</div><div class="author-role">VP of Revenue Operations</div></div></div></div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="cta-section">
+    <div class="section-label">Get Started</div>
+    <h2>Ready to get Linear on AWS, Azure & GCP?</h2>
+    <p>Book a 20-minute call with us, Marcus — we'll map out exactly how to make marketplace a real growth channel for Linear.</p>
+    <div class="form-row">
+      <input type="email" placeholder="marcus.chen@linear.app" />
+      <button class="btn btn-primary" style="white-space:nowrap">Book a Demo</button>
+    </div>
+    <p class="form-note">No credit card required. We'll reach out within 1 business day.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">ListIQ</div>
+  <p>© 2026 ListIQ. All rights reserved.</p>
+  <p style="color:var(--muted);font-size:0.8rem;">AWS, Azure, and GCP are trademarks of their respective owners.</p>
+</footer>
+
+<script>
+(function(){
+  const c=document.getElementById('bg-canvas'),x=c.getContext('2d');
+  let W,H,nodes=[];const N=75,D=145;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  function Node(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.45;this.vy=(Math.random()-.5)*.45;this.r=Math.random()*1.6+.5;}
+  function init(){nodes=Array.from({length:N},()=>new Node());}
+  function tick(){
+    x.clearRect(0,0,W,H);
+    for(let i=0;i<N;i++){
+      for(let j=i+1;j<N;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<D){x.globalAlpha=(1-d/D)*.28;x.strokeStyle='#0099ff';x.lineWidth=.7;x.beginPath();x.moveTo(nodes[i].x,nodes[i].y);x.lineTo(nodes[j].x,nodes[j].y);x.stroke();}}
+      const n=nodes[i];x.globalAlpha=.6;x.fillStyle='#0099ff';x.beginPath();x.arc(n.x,n.y,n.r,0,Math.PI*2);x.fill();
+      n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;
+    }
+    x.globalAlpha=1;requestAnimationFrame(tick);
+  }
+  window.addEventListener('resize',()=>{resize();init();});
+  resize();init();tick();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm install *)",
+      "PowerShell(vercel *)",
+      "WebFetch(domain:docs.clay.com)",
+      "WebFetch(domain:university.clay.com)",
+      "WebFetch(domain:clay.com)",
+      "WebFetch(domain:www.clay.com)",
+      "PowerShell(git *)"
+    ]
+  }
+}

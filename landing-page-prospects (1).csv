@@ -1,0 +1,6 @@
+first_name,last_name,email,title,company,company_website,linkedin_url,Personalized URL
+Sarah,Mitchell,sarah.mitchell@retool.com,VP of Revenue Operations,Retool,https://retool.com,https://linkedin.com/in/sarahmitchell,https://listiq-landing-pages.vercel.app/sarah-retool
+Marcus,Chen,marcus.chen@linear.app,Head of Growth,Linear,https://linear.app,https://linkedin.com/in/marcuschen,https://listiq-landing-pages.vercel.app/marcus-linear
+Emily,Rodriguez,emily.rodriguez@loom.com,Director of Sales Development,Loom,https://www.loom.com,https://linkedin.com/in/emilyrodriguez,https://listiq-landing-pages.vercel.app/emily-loom
+James,Okonkwo,james.okonkwo@webflow.com,GTM Engineer,Webflow,https://webflow.com,https://linkedin.com/in/jamesokonkwo,https://listiq-landing-pages.vercel.app/james-webflow
+Rachel,Goldstein,rachel.goldstein@airtable.com,VP of Sales,Airtable,https://www.airtable.com,https://linkedin.com/in/rachelgoldstein,https://listiq-landing-pages.vercel.app/rachel-airtable
